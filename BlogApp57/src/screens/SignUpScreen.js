@@ -19,7 +19,7 @@ const SignUpScreen=(props)=>{
 
             <Input 
             leftIcon ={<AntDesign name="user" size={24} color="black" />}
-            placeholder='Name'
+            placeholder="Name"
             onChangeText={function (currentInput) {
                 setName(currentInput);
               }}
@@ -27,15 +27,15 @@ const SignUpScreen=(props)=>{
 
             <Input 
           leftIcon={<Ionicons name="ios-school" size={24} color="black" />}
-          placeholder='Student ID
+          placeholder="Student ID"
             onChangeText={function (currentInput) {
                 setSID(currentInput);
               }}
-              '/>
+              />
 
             <Input 
             leftIcon ={<FontAwesome name="envelope" size={24} color="black" />}
-            placeholder='E-mail Address'
+            placeholder="E-mail Address"
             onChangeText={function (currentInput) {
                 setEmail(currentInput);
               }}
@@ -43,7 +43,7 @@ const SignUpScreen=(props)=>{
 
             <Input 
             leftIcon ={<Feather name="key" size={24} color="black" />}
-            placeholder='Password'
+            placeholder="Password"
             secureTextEntry={true}
             onChangeText={function (currentInput) {
                 setPassword(currentInput);
@@ -54,6 +54,8 @@ const SignUpScreen=(props)=>{
            title='  Sign Up '
            type='solid'
            onPress={function () {
+            console.log("sign");
+
             let currentUser = {
                 name: Name,
                 sid: SID,
@@ -61,6 +63,7 @@ const SignUpScreen=(props)=>{
                 password: Password,
               };
               storeDataJSON(Email, currentUser);
+        
                props.navigation.navigate("SignIn");
            }}
            />
@@ -81,11 +84,6 @@ const SignUpScreen=(props)=>{
 
 const styles=StyleSheet.create(
     {
-        textStyle:{
-            fontSize:22,
-            color: '#000001',
-            textAlign : "center",
-        },
         viewStyle:{
             flex:1,
             justifyContent:'center',

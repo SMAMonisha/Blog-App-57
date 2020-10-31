@@ -6,7 +6,7 @@ import {AuthContext} from "../provider/AuthProvider";
 import {getDataJSON} from "../functions/AsyncStorageFunctions";
 
 const SignInScreen=(props)=>{
-    console.log(props)
+
     const [Email, setEmail] = useState("");
     const [Password, setPassword] = useState("");
     return (
@@ -36,12 +36,13 @@ const SignInScreen=(props)=>{
             type='solid'
             onPress={async function () {
                 let UserData = await getDataJSON(Email);
+               
                 if (UserData.password == Password) {
                   auth.setIsLoggedIn(true);
                   auth.setCurrentUser(UserData);
                 } else {
                   alert("Login Failed");
-                  console.log(UserData);
+                
                 }
               }}
             />
