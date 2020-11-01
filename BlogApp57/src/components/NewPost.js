@@ -10,6 +10,7 @@ function CurrentDate() {
     return date;
   }
 const NewPost = ({user,props}) =>{
+    const input =React.createRef();
     const [ Post, setPost] = useState("");
     console.log(user.name);
     return (
@@ -18,7 +19,8 @@ const NewPost = ({user,props}) =>{
               {/* <Card.Title> Write Blog</Card.Title>
                 <Card.Divider></Card.Divider> */}
 
-                        <Input
+                        <Input ref={input}
+                        multiline={true}
                            leftIcon={<Entypo name="pencil" size={24} color="black" />}
                             placeholder="What's on your mind?"
                             onChangeText={function (currentInput) {
@@ -45,6 +47,8 @@ const NewPost = ({user,props}) =>{
                                 storeDataJSON("PostID"+id, postDetails);
                                
                                 alert("Post added ");
+                                setPost("");
+                                input.current.clear();
                               
                             }}
                         />

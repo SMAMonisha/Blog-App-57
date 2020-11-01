@@ -10,15 +10,16 @@ const NewComment=({postDetails,user})=>{
     return(
         <Card>
             <View style={{flexDirection:'row'}}>
-                <Input 
+                <Input  ref={input}
                 placeholder="Comment Here :"
-                onChangeText={function (inputComment) {
-                    setComment(inputComment);
+                onChangeText={function (input) {
+                    setComment(input);
                   }}
                   rightIcon={<Button 
+                    disabled={comment.length==0? true:false}
                   title="Comment"
                   type="outline"
-                  onPress= { async function(){
+                  onPress= {  function(){
                     var id = Math.floor(Math.random() * 200);
                       let currentComment={
                           postId:postDetails.id,
@@ -28,14 +29,16 @@ const NewComment=({postDetails,user})=>{
                           commentId:'commentId'+id
                       };
                    
-                      await storeDataJSON("commentId"+id,currentComment);
-                      await NotificationFunction(currentComment);
+                       storeDataJSON("commentId"+id,currentComment);
+                       NotificationFunction(currentComment);
                     
                       setComment("");
-                    input.current.clear();
-                  }}/>}
-                multiline={true}
-                ref={input}/>
+                      input.current.clear();
+                  }}
+                 />}
+                 multiline={true}
+                 ref={input}
+                />
             </View>
         </Card>
     )
