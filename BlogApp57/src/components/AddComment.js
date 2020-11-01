@@ -19,11 +19,7 @@ const NewComment=({postDetails,user})=>{
                     disabled={comment.length==0? true:false}
                   title="Comment"
                   type="outline"
-<<<<<<< HEAD
                   onPress= {  function(){
-=======
-                  onPress= { async function(){
->>>>>>> main
                     var id = Math.floor(Math.random() * 200);
                       let currentComment={
                           postId:postDetails.id,
@@ -33,7 +29,6 @@ const NewComment=({postDetails,user})=>{
                           commentId:'commentId'+id
                       };
                    
-<<<<<<< HEAD
                        storeDataJSON("commentId"+id,currentComment);
                        NotificationFunction(currentComment);
                     
@@ -44,16 +39,6 @@ const NewComment=({postDetails,user})=>{
                  multiline={true}
                  ref={input}
                 />
-=======
-                      await storeDataJSON("commentId"+id,currentComment);
-                      await NotificationFunction(currentComment);
-                    
-                      setComment("");
-                    input.current.clear();
-                  }}/>}
-                multiline={true}
-                ref={input}/>
->>>>>>> main
             </View>
         </Card>
     )
