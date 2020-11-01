@@ -6,6 +6,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 
 import HomeScreen from './src/screens/HomeScreen';
 import NotificationScreen from './src/screens/NotificationScreen';
+import CommentScreen from './src/screens/CommentScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
 import SignInScreen from './src/screens/SignInScreen';
@@ -17,11 +18,12 @@ const HomeStack = createStackNavigator()
 const AuthStack = createStackNavigator()
 const HomeTab = createMaterialBottomTabNavigator();
 const AppDrawer = createDrawerNavigator();
+const CommentStack =createStackNavigator();
 
 const AppDrawerScreen =() =>{
   return (
     <AppDrawer.Navigator initialRouteName="Home" >
-      <AppDrawer.Screen name="Home" component={HomeTabScreen} />
+      <AppDrawer.Screen name="Home" component={CommentStackScreen} />
       <AppDrawer.Screen name="Profile" component={ProfileScreen}/>
     </AppDrawer.Navigator>
   )
@@ -44,7 +46,18 @@ const HomeTabScreen =() =>{
       }}
       />
       <HomeTab.Screen name="Notification" component={NotificationScreen}
-      />
+     options={{
+      tabBarLabel: "Notifications",
+      tabBarIcon: ({ focused }) =>
+        focused ? (
+          <Ionicons name="ios-notifications" size={26} color="white" />
+        ) : (
+          <Ionicons
+            name="ios-notifications-outline" size={22} color="white"
+          />
+        ),
+    }}
+     />
     </HomeTab.Navigator>
   )
 }
@@ -55,6 +68,15 @@ const AuthStackScreen =() =>{
       <AuthStack.Screen name="SignUp" component={SignUpScreen} options={{headerShown:false}}/>
       <AuthStack.Screen name="SignIn" component={SignInScreen} options={{headerShown:false}}/>
     </AuthStack.Navigator>
+  )
+}
+
+const CommentStackScreen =() =>{
+  return (
+    <CommentStack.Navigator initialRouteName='Home'>
+      <CommentStack.Screen name="Home" component={HomeTabScreen} />
+      <CommentStack.Screen name="Comment" component={CommentScreen} />
+    </CommentStack.Navigator>
   )
 }
 

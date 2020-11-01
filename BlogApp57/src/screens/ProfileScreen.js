@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { View, StyleSheet, AsyncStorage } from "react-native";
 import { Text, Card, Button, Avatar, Header } from "react-native-elements";
 import { AuthContext } from "../provider/AuthProvider";
+import {removeData} from "../functions/AsyncStorageFunctions";
+
 const ProfileScreen = (props) => {
   return (
     <AuthContext.Consumer>
@@ -15,7 +17,7 @@ const ProfileScreen = (props) => {
                 props.navigation.toggleDrawer();
               },
             }}
-            centerComponent={{ text: "The Office", style: { color: "#fff" } }}
+            centerComponent={{ text: "Profile", style: { color: "#fff" } }}
             rightComponent={{
               icon: "lock-outline",
               color: "#fff",
@@ -26,20 +28,28 @@ const ProfileScreen = (props) => {
             }}
           />
           <Card>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Avatar
-                containerStyle={{ backgroundColor: "cyan" }}
-                rounded
-                icon={{
-                  name: "thumbs-o-up",
-                  type: "font-awesome",
-                  color: "black",
-                }}
-                activeOpacity={1}
-              />
-              <Text style={{ paddingHorizontal: 10 }}>
-                {auth.CurrentUser.name} Liked Your Post.(profile)
+          <View>
+              <Text style={{ alignSelf : 'center',fontWeight: "bold",fontSize: 30 }}>
+                {auth.CurrentUser.name} 
               </Text>
+              <Card.Divider/>
+              <Text style = {styles.textStyle}>
+              <Text style = {{fontWeight: "bold"}}>Student ID : </Text>{auth.CurrentUser.sid} {"\n"}
+              <Text style = {{fontWeight: "bold"}}>Date of Birth : </Text>{auth.CurrentUser.DoB} {"\n"}
+              <Text style = {{fontWeight: "bold"}}>Address : </Text>{auth.CurrentUser.address} {"\n"}
+              <Text style = {{fontWeight: "bold"}}>Place of Work : </Text>{auth.CurrentUser.worksAt} {"\n"}
+              </Text>
+            <Button
+            title = 'Delete Account'
+            type = "solid"
+            onPress={
+                async function(){
+                    await removeData(auth.CurrentUser.email);
+                    auth.setIsLoggedIn(false);
+                    
+                }
+            }
+            />
             </View>
           </Card>
         </View>

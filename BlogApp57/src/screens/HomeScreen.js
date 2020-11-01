@@ -60,7 +60,7 @@ const HomeScreen = (props) => {
                                 props.navigation.toggleDrawer();
                             },
                         }}
-                        centerComponent={{ text: "The Office", style: { color: "#fff" } }}
+                        centerComponent={{ text: "Blog App", style: { color: "#fff" } }}
                         rightComponent={{
                             icon: "lock-outline",
                             color: "#fff",
@@ -70,7 +70,7 @@ const HomeScreen = (props) => {
                             },
                         }}
                     />
-                    <Text style={styles.textStyle}> Welcome {auth.CurrentUser.name}  </Text>
+                    <Text style={styles.textStyle  }> Welcome {auth.CurrentUser.name}  </Text>
                     <NewPost user={auth.CurrentUser}  props={props}/>
 
             <FlatList style={styles.flatStyle}
