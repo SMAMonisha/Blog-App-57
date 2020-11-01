@@ -5,7 +5,7 @@ import { FontAwesome,Feather,AntDesign,Ionicons } from '@expo/vector-icons';
 import {storeDataJSON} from '../functions/AsyncStorageFunctions';
 
 const SignUpScreen=(props)=>{
-    console.log(props)
+    
     const [Name, setName] = useState("");
     const [SID, setSID] = useState("");
     const [Email, setEmail] = useState("");
@@ -53,8 +53,7 @@ const SignUpScreen=(props)=>{
            icon ={<AntDesign name="login" size={24} color="white"/>}
            title='  Sign Up '
            type='solid'
-           onPress={function () {
-            console.log("sign");
+           onPress={function () {          
 
             let currentUser = {
                 name: Name,

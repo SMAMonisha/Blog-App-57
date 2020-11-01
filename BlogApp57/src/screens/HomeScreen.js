@@ -1,11 +1,11 @@
 
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import {
     ScrollView,
     View,
     StyleSheet,
     FlatList,
-    ActivityIndicator,
+    ActivityIndicator,AsyncStorage,
 } from "react-native";
 import {
     Card,
@@ -15,13 +15,37 @@ import {
     Input,
     Header,
 } from "react-native-elements";
-// import PostCard from "./../components/PostCard";
+ import PostCard from "../components/PostCard";
 import { AntDesign, Entypo } from "@expo/vector-icons";
 import { AuthContext } from "../provider/AuthProvider";
-import { storeDataJSON, getDataJSON } from '../functions/AsyncStorageFunctions';
+import { storeDataJSON, getDataJSON, removeData } from '../functions/AsyncStorageFunctions';
+import NewPost from "../components/NewPost";
 
 
 const HomeScreen = (props) => {
+    const [AllPosts,setAllPosts] = useState([]);
+    const getPost = async () =>{
+        let AKeys =await AsyncStorage.getAllKeys();
+
+        let posts=[];
+        if (AKeys != null) {
+            for (let key of AKeys) {
+              if(key.startsWith("PostID")){
+               let post = await getDataJSON(key);
+                posts.push(post);
+              } 
+            }
+            setAllPosts(posts);
+          }
+          else{
+            console.log('No keys')
+          }       
+    };
+    console.log(AllPosts);
+    useEffect(() => {
+        getPost();
+      }, []);
+
     const [post, setPost] = useState("");
     const [postOwner, setPostOwner] = useState("");
     return (
@@ -47,41 +71,20 @@ const HomeScreen = (props) => {
                         }}
                     />
                     <Text style={styles.textStyle}> Welcome {auth.CurrentUser.name}  </Text>
-                    <Text style={styles.textStyle}>Home </Text>
-                    <Card>
-                        <Card.Title> Write Blog</Card.Title>
-                        <Card.Divider></Card.Divider>
+                    <NewPost user={auth.CurrentUser}  props={props}/>
 
-                        <Input
-                            leftIcon={<AntDesign name="user" size={24} color="black" />}
-                            placeholder="What's on your mind?"
-                            onChangeText={function (currentInput) {
-                                setPost(currentInput);
-                                setPostOwner(auth.CurrentUser.email);
-
-                            }}
-                        />
-                     
-
-
-                        <Button
-                            title='  Post '
-                            type='solid'
-                            onPress={function () {
-
-                                let postDetails = {
-                                    post: post,
-                                    postOwner: postOwner
-                                };
-                                storeDataJSON(postOwner, postDetails);
-
-                                alert("Post added ");
-                              
-                            }}
-                        />
-
-                    </Card>
-
+            <FlatList style={styles.flatStyle}
+            data={AllPosts}
+            renderItem={function ({ item }) {
+              return (<PostCard 
+                content={item}
+                props={props}                
+                />);
+            }}
+            keyExtractor={(item, index) => index.toString()}
+          />
+         
+                    
                 </View>)}
         </AuthContext.Consumer>
     );
@@ -93,6 +96,10 @@ const styles = StyleSheet.create(
             fontSize: 22,
             color: '#000001',
             textAlign: "center",
+        },
+        flatStyle:{
+            paddingBottom:10,
+            marginBottom:20,
         },
 
     }
