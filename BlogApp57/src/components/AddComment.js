@@ -1,11 +1,11 @@
 import React,{useState} from 'react';
 import { View ,StyleSheet} from 'react-native';
 import { Card, Button ,Input} from 'react-native-elements';
-import { storeDataJSON} from "../functions/AsyncStorageFunctions";
+import { getDataJSON, storeDataJSON} from "../functions/AsyncStorageFunctions";
 import NotificationFunction from '../functions/NotificationFunction';
-import NotificationScreen from '../screens/NotificationScreen';
 
 const NewComment=({postDetails,user})=>{
+    const input =React.createRef();
     const [comment,setComment]=useState("")
     return(
         <Card>
@@ -18,7 +18,7 @@ const NewComment=({postDetails,user})=>{
                   rightIcon={<Button 
                   title="Comment"
                   type="outline"
-                  onPress={function(){
+                  onPress= { async function(){
                     var id = Math.floor(Math.random() * 200);
                       let currentComment={
                           postId:postDetails.id,
@@ -26,12 +26,16 @@ const NewComment=({postDetails,user})=>{
                           author:user,
                           receiver:postDetails.author,
                           commentId:'commentId'+id
-                      }
-                      NotificationFunction(currentComment);
-                      storeDataJSON("commentId"+id,currentComment)
-                      
+                      };
+                   
+                      await storeDataJSON("commentId"+id,currentComment);
+                      await NotificationFunction(currentComment);
+                    
+                      setComment("");
+                    input.current.clear();
                   }}/>}
-                multiline={true}/>
+                multiline={true}
+                ref={input}/>
             </View>
         </Card>
     )
