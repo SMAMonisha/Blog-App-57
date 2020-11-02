@@ -47,7 +47,7 @@ const NotificationScreen = (props) => {
           /> */}
           <Card>
           <View style={{ flexDirection: "row" }}>
-              <Text>N</Text>
+              {/* <Text>N</Text> */}
               <FlatList 
               data={notification}
               renderItem={function({item}){
@@ -56,7 +56,7 @@ const NotificationScreen = (props) => {
                   return(
                      
                     <NotificationCard 
-                    content={item}
+                    content={item} props={props}
                     />
                   )
                 }

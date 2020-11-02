@@ -46,8 +46,7 @@ const HomeScreen = (props) => {
         getPost();
       }, []);
 
-    const [post, setPost] = useState("");
-    const [postOwner, setPostOwner] = useState("");
+
     return (
         <AuthContext.Consumer>
             {(auth) => (

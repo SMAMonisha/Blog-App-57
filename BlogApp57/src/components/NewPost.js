@@ -30,6 +30,7 @@ const NewPost = ({user,props}) =>{
                         />                    
 
                         <Button
+                         disabled={Post.length==0? true:false}
                             title='Post'
                             type='solid'
                             onPress={function () {
@@ -42,7 +43,7 @@ const NewPost = ({user,props}) =>{
                                     // postOwner: postOwner,
                                     id: "PostID"+id,
                                 };
-                                console.log(postDetails);
+                                //console.log(postDetails);
                                 
                                 storeDataJSON("PostID"+id, postDetails);
                                
