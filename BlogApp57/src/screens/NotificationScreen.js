@@ -27,26 +27,27 @@ const NotificationScreen = (props) => {
     <AuthContext.Consumer>
       {(auth) => (
         <View style={styles.viewStyle}>
-          {/* <Header
-            leftComponent={{
-              icon: "menu",
-              color: "#fff",
-              onPress: function () {
-                props.navigation.toggleDrawer();
-              },
-            }}
-            centerComponent={{ text: "The Office", style: { color: "#fff" } }}
-            rightComponent={{
-              icon: "lock-outline",
-              color: "#fff",
-              onPress: function () {
-                auth.setIsLoggedIn(false);
-                auth.setCurrentUser({});
-              },
-            }}
-          /> */}
+           <Header
+                        leftComponent={{
+                            icon: "menu",
+                            color: "#fff",
+                            onPress: function () {
+                                props.navigation.toggleDrawer();
+                            },
+                        }}
+                        centerComponent={{ text: "Blog App", style: { color: "#fff" } }}
+                        rightComponent={{
+                            icon: "lock-outline",
+                            color: "#fff",
+                            onPress: function () {
+                                auth.setIsLoggedIn(false);
+                                auth.setCurrentUser({});
+                            },
+                        }}
+                    />
           <Card>
           <View style={{ flexDirection: "row" }}>
+         
               {/* <Text>N</Text> */}
               <FlatList 
               data={notification}

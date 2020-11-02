@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { StyleSheet,View,Image,TouchableOpacity} from 'react-native';
+import { StyleSheet,View,Image,TouchableOpacity, AsyncStorage} from 'react-native';
 import {Input,Button, Card} from 'react-native-elements';
-import { FontAwesome,Feather,AntDesign } from '@expo/vector-icons'; 
+import {MaterialIcons, FontAwesome,Feather,AntDesign } from '@expo/vector-icons'; 
 import {AuthContext} from "../provider/AuthProvider";
 import {getDataJSON} from "../functions/AsyncStorageFunctions";
 
@@ -27,14 +27,19 @@ const SignInScreen=(props)=>{
              <Input 
              leftIcon ={<Feather name="key" size={24} color="black" />}
              placeholder='Password'
+             secureTextEntry={true}
              onChangeText={function (currentInput) {
                 setPassword(currentInput);
               }}/>
             <Button
+            // disabled={Email.length==0? true:false}
             icon ={<AntDesign name="login" size={24} color="white"/>}
             title='  Sign In '
             type='solid'
+            
             onPress={async function () {
+              if(Email.length!=0 && Password.length!=0)
+              {
                 let UserData = await getDataJSON(Email);
                
                 if (UserData.password == Password) {
@@ -44,6 +49,10 @@ const SignInScreen=(props)=>{
                   alert("Login Failed");
                 
                 }
+              }
+              else 
+                  alert("Insert Email & Password");
+                
               }}
             />
             <Button
@@ -52,6 +61,14 @@ const SignInScreen=(props)=>{
             title=" Don't have an account?"
             onPress={function () {
                 props.navigation.navigate("SignUp");
+            }}
+            />
+             <Button
+            type="clear"
+            icon ={<MaterialIcons name="clear" size={22} color="black" />}
+            title=" Clean App"
+            onPress={function () {
+                AsyncStorage.clear()
             }}
             />
 

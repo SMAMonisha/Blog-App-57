@@ -47,6 +47,7 @@ const HomeTabScreen =() =>{
       />
       <HomeTab.Screen name="Notification" component={NotificationScreen}
      options={{
+      headerShown:false,
       tabBarLabel: "Notifications",
       tabBarIcon: ({ focused }) =>
         focused ? (
@@ -75,7 +76,7 @@ const CommentStackScreen =() =>{
   return (
     <CommentStack.Navigator initialRouteName='Home'>
       <CommentStack.Screen name="Home" component={HomeTabScreen} />
-      <CommentStack.Screen name="Comment" component={CommentScreen} />
+      <CommentStack.Screen name="Comment" component={CommentScreen}  />
     </CommentStack.Navigator>
   )
 }
