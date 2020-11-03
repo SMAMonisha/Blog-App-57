@@ -23,7 +23,7 @@ const CommentStack =createStackNavigator();
 const AppDrawerScreen =() =>{
   return (
     <AppDrawer.Navigator initialRouteName="Home" >
-      <AppDrawer.Screen name="Home" component={CommentStackScreen} />
+      <AppDrawer.Screen name="Home" component={CommentStackScreen} options={{headerShown:false}} />
       <AppDrawer.Screen name="Profile" component={ProfileScreen}/>
     </AppDrawer.Navigator>
   )
@@ -36,6 +36,7 @@ const HomeTabScreen =() =>{
       name="Home"
       component={HomeScreen}
       options={{
+        
         tabBarLabel: "Home",
         tabBarIcon: ({ focused }) =>
           focused ? (
@@ -75,7 +76,7 @@ const AuthStackScreen =() =>{
 const CommentStackScreen =() =>{
   return (
     <CommentStack.Navigator initialRouteName='Home'>
-      <CommentStack.Screen name="Home" component={HomeTabScreen} />
+      <CommentStack.Screen name="Home" component={HomeTabScreen} options={{headerShown:false}}/>
       <CommentStack.Screen name="Comment" component={CommentScreen}  />
     </CommentStack.Navigator>
   )

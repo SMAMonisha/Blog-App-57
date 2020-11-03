@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { View } from "react-native";
-import { Card, Button, Text, Avatar } from "react-native-elements";
+import { Card,CardItem, Button, Text, Avatar } from "react-native-elements";
 import { AntDesign } from "@expo/vector-icons";
-import { getDataJSON} from "../functions/AsyncStorageFunctions";
+import { storedataJSON,getDataJSON} from "../functions/AsyncStorageFunctions";
 
  const PostCard = ({content,props}) =>{
      const [Like,setLike] = useState(0);
@@ -37,16 +37,20 @@ import { getDataJSON} from "../functions/AsyncStorageFunctions";
       </Text>
              </View>
              <Card.Divider/>
-             <Text style={{fontSize:20}}>{Like}</Text>
+             <Text style={{fontSize:20}}> {Like} </Text>
             <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        
+                
         <Button buttonStyle={{}}
           type="outline"
           title=" Like "
           alignItems="Left"
           icon={<AntDesign name="like1" size={22} color="skyblue" />}
+          onPress={function (){
+            setLike(Like+1)
+            //storeDataJSON("PostID"+id, postDetails);
+         }}
         />
-       
+         
       
         <Button type="solid" title="Comment" 
          onPress={function (){

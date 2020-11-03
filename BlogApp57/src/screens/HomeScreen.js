@@ -38,6 +38,8 @@ const HomeScreen = (props) => {
               } 
             }
             setAllPosts(posts);
+            setLoading(false);      
+
           }
           else{
             console.log('No keys')
@@ -103,6 +105,7 @@ const styles = StyleSheet.create(
             paddingTop:5,
             paddingBottom:10,
             marginBottom:20,
+            marginTop: 5
         },
 
     }

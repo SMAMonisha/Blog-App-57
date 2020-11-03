@@ -40,6 +40,7 @@ const NewPost = ({user,props}) =>{
                                     post: Post,
                                     user_email:user.email,
                                     date : CurrentDate(),
+                                    Like : 0,
                                     // postOwner: postOwner,
                                     id: "PostID"+id,
                                 };
