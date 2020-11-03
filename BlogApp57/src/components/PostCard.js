@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { View } from "react-native";
 import { Card,CardItem, Button, Text, Avatar } from "react-native-elements";
 import { AntDesign } from "@expo/vector-icons";
-import { storedataJSON,getDataJSON} from "../functions/AsyncStorageFunctions";
+import { mergeData,getDataJSON} from "../functions/AsyncStorageFunctions";
 
  const PostCard = ({content,props}) =>{
-     const [Like,setLike] = useState(0);
+     const [Like,setLike] = useState(content.Like);
      return(
-         <Card>
+         <Card >
              <View
         style={{
           flexDirection: "row",
@@ -45,7 +45,9 @@ import { storedataJSON,getDataJSON} from "../functions/AsyncStorageFunctions";
           title=" Like "
           alignItems="Left"
           icon={<AntDesign name="like1" size={22} color="skyblue" />}
-          onPress={function (){
+          onPress={
+            async ()=>{
+              await mergeData(content.id,JSON.stringify({Like:Like+1}));
             setLike(Like+1)
             //storeDataJSON("PostID"+id, postDetails);
          }}

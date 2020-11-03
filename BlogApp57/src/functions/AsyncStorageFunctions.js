@@ -55,4 +55,11 @@ const removeData = async (key) => {
   }
 };
 
-export { storeData, storeDataJSON, getData, getDataJSON, removeData };
+const mergeData=async(key,value)=>{
+  try{
+    await AsyncStorage.mergeItem(key,value);
+    return true;
+  }catch(e){console.log(e)}
+};
+
+export {mergeData, storeData, storeDataJSON, getData, getDataJSON, removeData };
