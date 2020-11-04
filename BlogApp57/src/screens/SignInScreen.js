@@ -67,14 +67,14 @@ const SignInScreen=(props)=>{
                 props.navigation.navigate("SignUp");
             }}
             />
-             <Button
+             {/* <Button
             type="clear"
             icon ={<MaterialIcons name="clear" size={22} color="black" />}
             title=" Clean App"
             onPress={function () {
                 AsyncStorage.clear()
             }}
-            />
+            /> */}
 
          </Card>            
         </View>
