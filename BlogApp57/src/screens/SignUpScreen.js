@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import {Text, StyleSheet,View,Image,TouchableOpacity} from 'react-native';
 import {Input,Button, Card} from 'react-native-elements';
 import { FontAwesome,Feather,AntDesign,Ionicons } from '@expo/vector-icons'; 
 import {storeDataJSON} from '../functions/AsyncStorageFunctions';
+import * as ImagePicker from 'expo-image-picker';
 
 const SignUpScreen=(props)=>{
     
@@ -10,13 +11,45 @@ const SignUpScreen=(props)=>{
     const [SID, setSID] = useState("");
     const [Email, setEmail] = useState("");
     const [Password, setPassword] = useState("");
+    const [image,setImage] = useState(null);
 
+    useEffect(() => {
+      (async () => {
+        if (Platform.OS !== 'web') {
+          const { status } = await ImagePicker.requestCameraRollPermissionsAsync();
+          if (status !== 'granted') {
+            alert('Sorry, we need camera roll permissions to make this work!');
+          }
+        }
+      })();
+    }, []);
+  
+    const pickImage = async () => {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+  
+      console.log(result);
+  
+      if (!result.cancelled) {
+        setImage(result.uri);
+      }
+    };
     return (
         <View style={styles.viewStyle}>
+          <Image
+                style = {styles.imageStyle}
+                source = {require('./../../assets/blog.jpg')}
+            /> 
         <Card>
             <Card.Title> Welcome to Auth App</Card.Title>
             <Card.Divider></Card.Divider>
-
+            <Button title="Pick an image from camera roll" onPress={pickImage} />
+            {image && <Image source={{ uri: image }} style={{ width: 50, height: 50 }} 
+            />} 
             <Input 
             leftIcon ={<AntDesign name="user" size={24} color="black" />}
             placeholder="Name"
@@ -60,6 +93,7 @@ const SignUpScreen=(props)=>{
                 sid: SID,
                 email: Email,
                 password: Password,
+                image : image,
               };
               storeDataJSON(Email, currentUser);
         
@@ -86,8 +120,14 @@ const styles=StyleSheet.create(
         viewStyle:{
             flex:1,
             justifyContent:'center',
-            backgroundColor: '#8df7f6',
+            backgroundColor: '#78c6f0',
             textAlign : "center",
+        },
+        imageStyle:
+        {
+            width: 400, 
+            height: 100,
+            alignSelf: 'center' 
         },
        
     }    

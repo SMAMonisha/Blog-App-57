@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, AsyncStorage } from "react-native";
+import { View,Image, StyleSheet, AsyncStorage } from "react-native";
 import { Text, Card, Button, Avatar, Header } from "react-native-elements";
 import { AuthContext } from "../provider/AuthProvider";
 import {removeData} from "../functions/AsyncStorageFunctions";
@@ -33,11 +33,15 @@ const ProfileScreen = (props) => {
                 {auth.CurrentUser.name} 
               </Text>
               <Card.Divider/>
+              {auth.CurrentUser.image && <Image source = {{uri : auth.CurrentUser.image}} 
+              style={{ width: 100, 
+              height: 100,
+               alignSelf: 'center'   }}/> }
               <Text style = {styles.textStyle}>
-              <Text style = {{fontWeight: "bold"}}>Student ID : </Text>{auth.CurrentUser.sid} {"\n"}
-              <Text style = {{fontWeight: "bold"}}>Date of Birth : </Text>{auth.CurrentUser.DoB} {"\n"}
-              <Text style = {{fontWeight: "bold"}}>Address : </Text>{auth.CurrentUser.address} {"\n"}
-              <Text style = {{fontWeight: "bold"}}>Place of Work : </Text>{auth.CurrentUser.worksAt} {"\n"}
+              <Text style = {{fontWeight: "bold",fontSize:24}}>Student ID : {auth.CurrentUser.sid} </Text >{"\n"}
+              <Text style = {{fontWeight: "bold",fontSize:24}}>Email : {auth.CurrentUser.email} </Text>{"\n"}
+              <Text style = {{fontWeight: "bold",fontSize:24}}>Address : {auth.CurrentUser.address}</Text> {"\n"}
+              <Text style = {{fontWeight: "bold",fontSize:24}}>Place of Work : {auth.CurrentUser.worksAt}</Text> {"\n"}
               </Text>
             <Button
             title = 'Delete Account'

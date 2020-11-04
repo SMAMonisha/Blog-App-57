@@ -15,7 +15,7 @@ const NewPost = ({user,props}) =>{
     console.log(user.name);
     return (
             
-        <Card>
+        <Card >
               {/* <Card.Title> Write Blog</Card.Title>
                 <Card.Divider></Card.Divider> */}
 

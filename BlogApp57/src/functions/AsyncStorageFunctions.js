@@ -59,7 +59,7 @@ const mergeData=async(key,value)=>{
   try{
     await AsyncStorage.mergeItem(key,value);
     return true;
-  }catch(e){console.log(e)}
+  }catch(error){console.log(error)}
 };
 
 export {mergeData, storeData, storeDataJSON, getData, getDataJSON, removeData };

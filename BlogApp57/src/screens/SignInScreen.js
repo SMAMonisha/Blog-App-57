@@ -13,6 +13,10 @@ const SignInScreen=(props)=>{
         <AuthContext.Consumer>
             {(auth)=>(
                 <View style={styles.viewStyle}>
+                     <Image
+                style = {styles.imageStyle}
+                source = {require('./../../assets/blog.jpg')}
+            /> 
          <Card>
              <Card.Title> Welcome to Auth App</Card.Title>
              <Card.Divider></Card.Divider>
@@ -86,10 +90,16 @@ const styles=StyleSheet.create(
         viewStyle:{
             flex:1,
             justifyContent:'center',
-            backgroundColor: '#8df7f6',
+            backgroundColor: '#78c6f0',
             textAlign : "center",
         },
-       
+        imageStyle:
+        {
+          borderColor:"#00ffff",
+            width: 400, 
+            height: 100,
+            alignSelf: 'center' 
+        },
     }    
 );
 

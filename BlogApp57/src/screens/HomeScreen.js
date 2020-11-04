@@ -38,7 +38,7 @@ const HomeScreen = (props) => {
               } 
             }
             setAllPosts(posts);
-            setLoading(false);      
+               
 
           }
           else{
@@ -49,7 +49,8 @@ const HomeScreen = (props) => {
     console.log(AllPosts);
     useEffect(() => {
         getPost();
-      }, []);
+        setLoading(false); 
+      });
 
 
     return (
