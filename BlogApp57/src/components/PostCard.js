@@ -3,9 +3,14 @@ import { View } from "react-native";
 import { Card,CardItem, Button, Text, Avatar } from "react-native-elements";
 import { AntDesign } from "@expo/vector-icons";
 import { mergeData,getDataJSON} from "../functions/AsyncStorageFunctions";
+import * as firebase from "firebase";
+import 'firebase/firestore';
 
  const PostCard = ({content,props}) =>{
-     const [Like,setLike] = useState(content.Like);
+     //const [Like,setLike] = useState(content.like);
+     const Like =content.data.likeCount;
+     const Date =content.data.creatTime.toDate().toDateString();
+
      return(
          <Card >
              <View
@@ -21,10 +26,10 @@ import { mergeData,getDataJSON} from "../functions/AsyncStorageFunctions";
           activeOpacity={1}
         />
         <Text h4Style={{ padding: 10 }} h4>
-          {content.author}
+          {content.data.user_name}
         </Text>
-        <Text >
-          {content.date}
+        <Text note>
+          {Date}
         </Text>
       </View>
              <View
@@ -33,7 +38,7 @@ import { mergeData,getDataJSON} from "../functions/AsyncStorageFunctions";
                 alignItems: "center",
               }}>
         <Text style={{paddingVertical: 8,}}>
-        {content.post}
+        {content.data.post}
       </Text>
              </View>
              <Card.Divider/>
@@ -47,8 +52,19 @@ import { mergeData,getDataJSON} from "../functions/AsyncStorageFunctions";
           icon={<AntDesign name="like1" size={22} color="skyblue" />}
           onPress={
             async ()=>{
-              await mergeData(content.id,JSON.stringify({Like:Like+1}));
-            setLike(Like+1)
+              await firebase
+                        .firestore()
+                        .collection("posts")
+                        .doc(content.id)
+                        .update(
+                        {
+                          likeCount:Like+1
+                        })
+                        .catch((error)=>{
+                          console.log(error)
+                        });
+              //await mergeData(content.id,JSON.stringify({Like:Like+1}));
+            //setLike(Like+1)
             //storeDataJSON("PostID"+id, postDetails);
          }}
         />
@@ -56,7 +72,7 @@ import { mergeData,getDataJSON} from "../functions/AsyncStorageFunctions";
       
         <Button type="solid" title="Comment" 
          onPress={function (){
-            let postID =content.id
+            let postID =content
             props.navigation.navigate("Comment",postID)
          }}
          />

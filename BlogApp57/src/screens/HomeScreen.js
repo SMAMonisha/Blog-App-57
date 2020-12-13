@@ -27,7 +27,25 @@ const HomeScreen = (props) => {
     const [Loading,setLoading] = useState(false);
     const getPost = async () =>{
         setLoading(true);
-        setLoading(false);      
+        firebase
+            .firestore()
+            .collection("posts")
+            .orderBy("creatTime","desc")
+            .onSnapshot((querySnapshot)=>{
+                let Posts=[]
+                querySnapshot.forEach((doc)=>{
+                    Posts.push({
+                        id: doc.id,
+                        data: doc.data(),
+                    });
+                });
+                setAllPosts(Posts);
+                setLoading(false);      
+            },(error)=>{
+                setLoading(false);      
+                console.log(error);
+            });
+        //setLoading(false);      
 
         //let AKeys =await AsyncStorage.getAllKeys();
         // let posts=[];
