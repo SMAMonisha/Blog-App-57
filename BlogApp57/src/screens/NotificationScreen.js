@@ -4,6 +4,7 @@ import { Text, Card, Button, Avatar, Header } from "react-native-elements";
 import { AuthContext } from "../provider/AuthProvider";
 import NotificationCard from "../components/NotificationCard";
 import {getDataJSON,storeDataJSON} from "../functions/AsyncStorageFunctions";
+import * as firebase from "firebase";
 
 
 const NotificationScreen = (props) => {
@@ -40,9 +41,21 @@ const NotificationScreen = (props) => {
                             icon: "lock-outline",
                             color: "#fff",
                             onPress: function () {
-                                auth.setIsLoggedIn(false);
-                                auth.setCurrentUser({});
+                              firebase
+                                .auth()
+                                .signOut()
+                                .then(() => {
+                                  auth.setIsLoggedIn(false);
+                                  auth.setCurrentUser({});
+                                })
+                                .catch((error) => {
+                                  alert(error);
+                                });
                             },
+                            // onPress: function () {
+                            //     auth.setIsLoggedIn(false);
+                            //     auth.setCurrentUser({});
+                            // },
                         }}
                     />
           <Card>

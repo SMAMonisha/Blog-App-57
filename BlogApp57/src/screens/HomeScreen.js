@@ -20,31 +20,31 @@ import { AntDesign, Entypo } from "@expo/vector-icons";
 import { AuthContext } from "../provider/AuthProvider";
 import { storeDataJSON, getDataJSON, removeData } from '../functions/AsyncStorageFunctions';
 import NewPost from "../components/NewPost";
-
+import * as firebase from "firebase";
 
 const HomeScreen = (props) => {
     const [AllPosts,setAllPosts] = useState([]);
     const [Loading,setLoading] = useState(false);
     const getPost = async () =>{
         setLoading(true);
-        let AKeys =await AsyncStorage.getAllKeys();
+        setLoading(false);      
 
-        let posts=[];
-        if (AKeys != null) {
-            for (let key of AKeys) {
-              if(key.startsWith("PostID")){
-               let post = await getDataJSON(key);
-                posts.push(post);
-              } 
-            }
-            setAllPosts(posts);
+        //let AKeys =await AsyncStorage.getAllKeys();
+        // let posts=[];
+        // if (AKeys != null) {
+        //     for (let key of AKeys) {
+        //       if(key.startsWith("PostID")){
+        //        let post = await getDataJSON(key);
+        //         posts.push(post);
+        //       } 
+        //     }
+        //     setAllPosts(posts);
                
 
-          }
-          else{
-            console.log('No keys')
-          }   
-        setLoading(false);      
+        //   }
+        //   else{
+        //     console.log('No keys')
+        //   }   
     };
     //console.log(AllPosts);
     useEffect(() => {
@@ -69,10 +69,22 @@ const HomeScreen = (props) => {
                         rightComponent={{
                             icon: "lock-outline",
                             color: "#fff",
+                            // onPress: function () {
+                            //     auth.setIsLoggedIn(false);
+                            //     auth.setCurrentUser({});
+                            // },
                             onPress: function () {
-                                auth.setIsLoggedIn(false);
-                                auth.setCurrentUser({});
-                            },
+                                firebase
+                                  .auth()
+                                  .signOut()
+                                  .then(() => {
+                                    auth.setIsLoggedIn(false);
+                                    auth.setCurrentUser({});
+                                  })
+                                  .catch((error) => {
+                                    alert(error);
+                                  });
+                              },
                         }}
                     />
                     <Text style={styles.textStyle  }> Welcome {auth.CurrentUser.name}  </Text>
