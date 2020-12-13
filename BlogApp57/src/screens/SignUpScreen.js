@@ -4,6 +4,8 @@ import {Input,Button, Card} from 'react-native-elements';
 import { FontAwesome,Feather,AntDesign,Ionicons } from '@expo/vector-icons'; 
 import {storeDataJSON} from '../functions/AsyncStorageFunctions';
 import * as ImagePicker from 'expo-image-picker';
+import * as firebase from "firebase";
+import 'firebase/firestore';
 
 const SignUpScreen=(props)=>{
     
@@ -86,18 +88,40 @@ const SignUpScreen=(props)=>{
            icon ={<AntDesign name="login" size={24} color="white"/>}
            title='  Sign Up '
            type='solid'
-           onPress={function () {          
-
-            let currentUser = {
-                name: Name,
-                sid: SID,
-                email: Email,
-                password: Password,
-                image : image,
-              };
-              storeDataJSON(Email, currentUser);
+           onPress={function () {    
+            if (Name && SID && Email && Password) {
+                
+            firebase
+            .auth()
+            .createUserWithEmailAndPassword(Email,Password)
+            .then(
+            (userCreds)=>{
+                userCreds.user.updateProfile({displayName:Name});
+                firebase
+                  .firestore().collection('users').doc(userCreds.user.uid).set({
+                    name:Name,
+                    sid:SID,
+                    email:Email,
+                })
+                .then(()=>{
+                    alert(userCreds.user.uid+" Account Created")
+                    props.navigation.navigate("SignIn");
+                })
+            })
+            .catch((error)=>{
+                alert(error)
+            })      
+            }
+            // let currentUser = {
+            //     name: Name,
+            //     sid: SID,
+            //     email: Email,
+            //     password: Password,
+            //     image : image,
+            //   };
+            //   storeDataJSON(Email, currentUser);
         
-               props.navigation.navigate("SignIn");
+            //    props.navigation.navigate("SignIn");
            }}
            />
            <Button

@@ -46,7 +46,7 @@ const HomeScreen = (props) => {
           }   
         setLoading(false);      
     };
-    console.log(AllPosts);
+    //console.log(AllPosts);
     useEffect(() => {
         getPost();
         setLoading(false); 

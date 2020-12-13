@@ -4,6 +4,8 @@ import {Input,Button, Card} from 'react-native-elements';
 import {MaterialIcons, FontAwesome,Feather,AntDesign } from '@expo/vector-icons'; 
 import {AuthContext} from "../provider/AuthProvider";
 import {getDataJSON} from "../functions/AsyncStorageFunctions";
+import * as firebase from "firebase";
+import 'firebase/firestore';
 
 const SignInScreen=(props)=>{
 
@@ -40,24 +42,40 @@ const SignInScreen=(props)=>{
             icon ={<AntDesign name="login" size={24} color="white"/>}
             title='  Sign In '
             type='solid'
-            
-            onPress={async function () {
+            onPress={async ()=>{
               if(Email.length!=0 && Password.length!=0)
               {
-                let UserData = await getDataJSON(Email);
-               
-                if (UserData.password == Password) {
-                  auth.setIsLoggedIn(true);
-                  auth.setCurrentUser(UserData);
-                } else {
-                  alert("Login Failed");
-                
-                }
+                      firebase
+                      .auth()
+                      .signInWithEmailAndPassword(Email, Password)
+                      .then((userCreds) => {
+                      auth.setIsLoggedIn(true);
+                      auth.setCurrentUser(userCreds.user);
+                      })
+                      .catch((error) => {
+                      alert(error);
+                      });
               }
-              else 
-                  alert("Insert Email & Password");
+              else
+                  alert("Please Enter Email & Password"); 
+          }}
+            // onPress={async function () {
+            //   if(Email.length!=0 && Password.length!=0)
+            //   {
+            //     let UserData = await getDataJSON(Email);
+               
+            //     if (UserData.password == Password) {
+            //       auth.setIsLoggedIn(true);
+            //       auth.setCurrentUser(UserData);
+            //     } else {
+            //       alert("Login Failed");
                 
-              }}
+            //     }
+            //   }
+            //   else 
+            //       alert("Insert Email & Password");
+                
+            //   }}
             />
             <Button
             type="clear"

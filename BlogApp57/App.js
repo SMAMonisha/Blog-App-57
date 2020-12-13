@@ -10,9 +10,24 @@ import CommentScreen from './src/screens/CommentScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
 import SignInScreen from './src/screens/SignInScreen';
+import * as firebase from "firebase";
 
 import { Entypo,Ionicons,AntDesign } from '@expo/vector-icons';
 import {AuthContext, AuthProvider } from "./src/provider/AuthProvider";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCvSHWEAKUuyukMVjAdaZpZDPrat5j29hk",
+  authDomain: "blog57.firebaseapp.com",
+  projectId: "blog57",
+  storageBucket: "blog57.appspot.com",
+  messagingSenderId: "285842146877",
+  appId: "1:285842146877:web:9cb4f09228acaf7828cc54"
+};
+
+// Initialize Firebase
+if(!firebase.apps.length){
+  firebase.initializeApp(firebaseConfig);
+}
 
 const HomeStack = createStackNavigator()
 const AuthStack = createStackNavigator()
