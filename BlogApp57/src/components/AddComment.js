@@ -3,8 +3,11 @@ import { View ,StyleSheet} from 'react-native';
 import { Card, Button ,Input} from 'react-native-elements';
 import { getDataJSON, storeDataJSON} from "../functions/AsyncStorageFunctions";
 import NotificationFunction from '../functions/NotificationFunction';
+import * as firebase from "firebase";
+import 'firebase/firestore';
 
-const NewComment=({postDetails,user})=>{
+const NewComment=({post,user})=>{
+    console.log(post)
     const input =React.createRef();
     const [comment,setComment]=useState("")
     return(
@@ -19,18 +22,28 @@ const NewComment=({postDetails,user})=>{
                     disabled={comment.length==0? true:false}
                   title="Comment"
                   type="outline"
-                  onPress= {  function(){
-                    var id = Math.floor(Math.random() * 200);
+                  onPress={async () =>{
+                  //onPress= {  function(){
+                    //var id = Math.floor(Math.random() * 200);
                       let currentComment={
-                          postId:postDetails.id,
-                          comment:comment,
-                          author:user,
-                          receiver:postDetails.author,
-                          commentId:'commentId'+id
+                          postId:post.id,
+                          comments:comment,
+                          sender:user,
+                          receiver:post.user_email,
+                         // commentId:'commentId'+id
                       };
+                      firebase
+                        .firestore()
+                        .collection("notifications")
+                        .add(currentComment).then((docRef)=>{
+                            alert("Comment ID: "+ docRef.id);
+                        })
+                        .catch((error)=> {
+                            console.log(error);
+                        });
                    
-                       storeDataJSON("commentId"+id,currentComment);
-                       NotificationFunction(currentComment);
+                    //    storeDataJSON("commentId"+id,currentComment);
+                    //    NotificationFunction(currentComment);
                     
                       setComment("");
                       input.current.clear();

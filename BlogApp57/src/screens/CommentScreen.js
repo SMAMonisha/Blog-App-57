@@ -4,45 +4,109 @@ import { Text, Card, Button, Avatar, Header } from "react-native-elements";
 import { AuthContext } from "../provider/AuthProvider";
 import AddComment from "../components/AddComment";
 import CommentCard from "../components/CommentCard";
-
 import { getDataJSON } from "../functions/AsyncStorageFunctions";
+import * as firebase from "firebase";
+import 'firebase/firestore';
 
 const CommentScreen = ({navigation,route}) =>{
-    let postId =route.params;
-    const [AllComments, setAllComments] = useState([]);
-    const [postDetails, setpostDetails] = useState({});
-
-    const getpostdetails = async () => {
-        let postDetails = await getDataJSON(postId);
-        if (postDetails != null) {
-          setpostDetails(postDetails);
-        } else {
-          console.log("no post");
-        }
-      };
-
-      const getComments = async () => {
-        let Allkeys = await AsyncStorage.getAllKeys();
-        
-        let comments = [];
-        if (Allkeys != null) {
-          for (let key of Allkeys) {
-            if (key.startsWith("commentId")) {
-              let comment = await getDataJSON(key);
-              comments.push(comment);
-            }
+  //console.log(route);
+    //let Post =route.params.data;
+    let postid =route.params.id;
+    // const [AllComments, setAllComments] = useState([]);
+    const [Post, setPosts] = useState({});
+    //let creatTime=Post.creatTime.toDate().toDateString();
+    const [Comments,setComment]=useState([]);
+    // const getpostdetails = async () => {
+    //     let postDetails = await getDataJSON(postId);
+    //     if (postDetails != null) {
+    //       setpostDetails(postDetails);
+    //     } else {
+    //       console.log("no post");
+    //     }
+    //   };
+    const getpostdetails=async()=>{
+      firebase
+        .firestore()
+        .collection("posts")
+        .doc(postid)
+        .get()
+        .then((doc)=>{
+            let post=doc.data()
+            post.id=postid
+            post.creatTime=post.creatTime.toDate().toDateString()
+            console.log(post)
+            setPosts(post)
+        })
+        .catch((error)=>console.log(error));
+  }
+    const getComments=async()=>{
+      firebase
+      .firestore()
+      .collection("notifications")
+      .orderBy("creatTime","desc")
+      .onSnapshot((querySnapshot)=>{
+          let allComment=[]
+          querySnapshot.forEach((docRef)=>{
+              allComment.push({
+                  id:docRef.id,
+                  data:docRef.data(),
+              });
+          });
+          console.log(allComment)
+          if(allComment!=null){
+              let Comment=allComment.filter(c=>c.data.id==postid && c.data.comments!=undefined)
+              setComment(Comment)
           }
-          setAllComments(comments);
-        } else {
-          console.log("No keys");
-        }
+          else console.log("no comment")
+          //setReload(false)
+      },(error)=>{
+          //setReload(false);
+          console.log(error);
+      });
+   // console.log(Comments)
+      // const getComments = async () => {
+      //   firebase
+      //     .firestore()
+      //     .collection("notifications")
+      //     .onSnapshot((querySnapshot)=>{
+      //         querySnapshot.forEach((doc)=>{
+      //             let AllComments=[]
+      //             AllComments.push({
+      //                 id:doc.id,
+      //                 data:doc.data(),
+      //             });
+      //         });
+      //         if(AllComments!=null){
+      //             let Comment=AllComments.filter(c=>c.data.postid==postId && c.data.comment!=undefined)
+      //             setComment(Comment)
+      //         }
+      //         else console.log("no comment")
+      //         //setReload(false)
+      //     },(error)=>{
+      //         //setReload(false);
+      //         console.log(error);
+      //     });
+        // let Allkeys = await AsyncStorage.getAllKeys();      
+        // let comments = [];
+        // if (Allkeys != null) {
+        //   for (let key of Allkeys) {
+        //     if (key.startsWith("commentId")) {
+        //       let comment = await getDataJSON(key);
+        //       comments.push(comment);
+        //     }
+        //   }
+        //   setAllComments(comments);
+        // } else {
+        //   console.log("No keys");
+        // }
       };
       useEffect(() => {
         getpostdetails();
       }, []);
       useEffect(() => {
         getComments();
-      });
+        //getpostdetails();
+      },[]);
 
 
       return(
@@ -51,24 +115,27 @@ const CommentScreen = ({navigation,route}) =>{
             <View style={styles.viewStyle}>
           
               <Card>
-                <Text>{postDetails.author}</Text>
-                <Text>{postDetails.date}</Text>
-                <Text>{postDetails.post}</Text>
+                <Text>{Post.user_name}</Text>
+                <Text style={{color:"green"}}>{Post.creatTime}</Text>
+                <Text style={{fontSize:16}}>{Post.post}</Text>
               </Card>
-              <AddComment postDetails={postDetails} user={auth.CurrentUser.name}/>
+              <AddComment post={Post} user={auth.CurrentUser.displayName}/>
               <FlatList 
-              data={AllComments}
+              data={Comments}
+
               renderItem={function({item}){
-                  if(postDetails.id==item.postId)
-                  {
+                  //if(postid==item.data.postId)
+                 // {
                     return(
                         <CommentCard 
-                        content={item}/>
+                        content={item.data}/>
                       )
-                  }              
+                  //}              
               }}
               keyExtractor={(item, index) => index.toString()}
               />
+                            <Text>in</Text>
+
             </View>
           )}
         </AuthContext.Consumer>

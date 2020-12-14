@@ -14,7 +14,7 @@ function CurrentDate() {
 const NewPost = ({user,props}) =>{
     const input =React.createRef();
     const [ Post, setPost] = useState("");
-    console.log(user.name);
+    //console.log(user.name);
     return (
             
         <Card >
