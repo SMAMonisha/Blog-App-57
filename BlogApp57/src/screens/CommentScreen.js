@@ -43,10 +43,11 @@ const CommentScreen = ({navigation,route}) =>{
       firebase
       .firestore()
       .collection("notifications")
-      .orderBy("creatTime","desc")
+      //.orderBy("creatTime","desc")
       .onSnapshot((querySnapshot)=>{
           let allComment=[]
           querySnapshot.forEach((docRef)=>{
+            //console.log(docRef.data())
               allComment.push({
                   id:docRef.id,
                   data:docRef.data(),
@@ -54,7 +55,7 @@ const CommentScreen = ({navigation,route}) =>{
           });
           console.log(allComment)
           if(allComment!=null){
-              let Comment=allComment.filter(c=>c.data.id==postid && c.data.comments!=undefined)
+              let Comment=allComment.filter(c=>c.data.postId==postid && c.data.comments!=undefined)
               setComment(Comment)
           }
           else console.log("no comment")
@@ -100,12 +101,12 @@ const CommentScreen = ({navigation,route}) =>{
         //   console.log("No keys");
         // }
       };
-      useEffect(() => {
-        getpostdetails();
-      }, []);
+      // useEffect(() => {
+      //   getpostdetails();
+      // }, []);
       useEffect(() => {
         getComments();
-        //getpostdetails();
+        getpostdetails();
       },[]);
 
 
@@ -124,13 +125,13 @@ const CommentScreen = ({navigation,route}) =>{
               data={Comments}
 
               renderItem={function({item}){
-                  //if(postid==item.data.postId)
-                 // {
+                  if(postid==item.data.postId)
+                 {
                     return(
                         <CommentCard 
                         content={item.data}/>
                       )
-                  //}              
+                  }              
               }}
               keyExtractor={(item, index) => index.toString()}
               />
