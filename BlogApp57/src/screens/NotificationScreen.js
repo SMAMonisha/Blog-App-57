@@ -10,7 +10,9 @@ import "firebase/firestore";
 
 const NotificationScreen = (props) => {
     let[notification,setNotification]=useState([])
+    const [reload,setReload]=useState(false);
     const getNotification=async()=>{
+      setReload(true)
     //   let Allnotice=await getDataJSON('notification')
     //   if(Allnotice!=null){
     //     setNotification(Allnotice)
@@ -34,9 +36,9 @@ const NotificationScreen = (props) => {
               setNotification(allNotify)
           }
           else console.log("no Notification")
-         // setReload(false)
+          setReload(false)
       },(error)=>{
-          //setReload(false);
+          setReload(false);
           console.log(error);
       });
     } 
@@ -91,7 +93,7 @@ const NotificationScreen = (props) => {
                   return(
                      
                     <NotificationCard 
-                    content={item.data} props={props}
+                    content={item} props={props}
                     />
                   )
                 }

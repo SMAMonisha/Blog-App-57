@@ -9,7 +9,7 @@ import * as firebase from "firebase";
 import 'firebase/firestore';
 
 const CommentScreen = ({navigation,route}) =>{
-  //console.log(route);
+  console.log(route);
     //let Post =route.params.data;
     let postid =route.params.id;
     // const [AllComments, setAllComments] = useState([]);
@@ -53,7 +53,7 @@ const CommentScreen = ({navigation,route}) =>{
                   data:docRef.data(),
               });
           });
-          console.log(allComment)
+          //console.log(allComment)
           if(allComment!=null){
               let Comment=allComment.filter(c=>c.data.postId==postid && c.data.comments!=undefined)
               setComment(Comment)
@@ -135,7 +135,6 @@ const CommentScreen = ({navigation,route}) =>{
               }}
               keyExtractor={(item, index) => index.toString()}
               />
-                            <Text>in</Text>
 
             </View>
           )}
