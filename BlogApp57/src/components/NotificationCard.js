@@ -6,10 +6,10 @@ const NotificationCard=({content,props})=>{
     
 return(
     <Card style={{borderRadius:10,shadowColor:'blue', shadowOffset:10, marginTop:5,marginLeft:5,marginRight:5}}onPress={function (){
-        let postID =content.postId
+        let postID =content
         props.navigation.navigate("Comment",postID)
      }} >
-        <Card.Title title={content.author} subtitle=' commented on your post' left={()=><MaterialIcons name="insert-comment" size={22} color="black" />} />
+        <Card.Title title={content.sender} subtitle=' commented on your post' left={()=><MaterialIcons name="insert-comment" size={22} color="black" />} />
   
     </Card>
 )
