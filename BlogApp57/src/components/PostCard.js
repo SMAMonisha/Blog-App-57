@@ -7,6 +7,7 @@ import * as firebase from "firebase";
 import 'firebase/firestore';
 
  const PostCard = ({content,props}) =>{
+   //console.log(content.id)
      //const [Like,setLike] = useState(content.like);
      const Like =content.data.likeCount;
      const Date =content.data.creatTime.toDate().toDateString();
@@ -72,7 +73,7 @@ import 'firebase/firestore';
       
         <Button type="solid" title="Comment" 
          onPress={function (){
-            let postID =content
+            let postID =content.id
             props.navigation.navigate("Comment",postID)
          }}
          />

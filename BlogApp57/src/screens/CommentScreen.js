@@ -9,9 +9,9 @@ import * as firebase from "firebase";
 import 'firebase/firestore';
 
 const CommentScreen = ({navigation,route}) =>{
-  console.log(route);
+  //console.log(route.params);
     //let Post =route.params.data;
-    let postid =route.params.id;
+    let postid =route.params;
     // const [AllComments, setAllComments] = useState([]);
     const [Post, setPosts] = useState({});
     //let creatTime=Post.creatTime.toDate().toDateString();

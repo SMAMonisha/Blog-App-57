@@ -33,19 +33,29 @@ const NewPost = ({user,props}) =>{
                          disabled={Post.length==0? true:false}
                             title='Post'
                             type='solid'
-                            onPress={function (){                             
-                                    if(Post.length>0){ 
+                            onPress={async () =>{
+                                if(Post.length>0){ 
+
+                                    let currentPost={
+                                        post:Post,
+                                        user_name:user.displayName,
+                                        user_email:user.email,
+                                        creatTime: firebase.firestore.Timestamp.now(),
+                                        likeCount:0,
+                                        comments:[]
+                                    };
                                         firebase
                                             .firestore()
                                             .collection("posts")
-                                            .add({
-                                                post:Post,
-                                                user_name:user.displayName,
-                                                user_email:user.email,
-                                                creatTime: firebase.firestore.Timestamp.now(),
-                                                likeCount:0,
-                                                comments:[]
-                                            }).then((docRef)=>{
+                                            .add(currentPost//{
+                                                // post:Post,
+                                                // user_name:user.displayName,
+                                                // user_email:user.email,
+                                                // creatTime: firebase.firestore.Timestamp.now(),
+                                                // likeCount:0,
+                                                // comments:[]
+                                           // }
+                                            ).then((docRef)=>{
                                                 alert("Post ID: "+ docRef.id);
                                             })
                                             .catch((error)=> {

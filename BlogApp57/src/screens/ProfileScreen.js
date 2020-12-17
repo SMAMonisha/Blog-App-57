@@ -6,6 +6,20 @@ import {removeData} from "../functions/AsyncStorageFunctions";
 import * as firebase from "firebase";
 
 const ProfileScreen = (props) => {
+  // let [userDetails,setUserDetails]=useState({})
+  // const getDetails= ()=>{
+  //      firebase
+  //       .firestore()
+  //       .collection("users")
+  //       .doc(route.params.user)
+  //       .onSnapshot((doc)=>{
+  //           setUserDetails(doc.data())
+  //       },(error)=>console.log(error))
+  // }
+
+  // useEffect(()=>{
+  //     getDetails()
+  // },[]);
   return (
     <AuthContext.Consumer>
       {(auth) => (
@@ -19,6 +33,7 @@ const ProfileScreen = (props) => {
               },
             }}
             centerComponent={{ text: "Profile", style: { color: "#fff" } }}
+            
             rightComponent={{
               icon: "lock-outline",
               color: "#fff",
@@ -33,6 +48,7 @@ const ProfileScreen = (props) => {
                   .catch((error) => {
                     alert(error);
                   });
+
               },
               // onPress: function () {
               //   auth.setIsLoggedIn(false);
